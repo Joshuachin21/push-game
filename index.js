@@ -11,7 +11,6 @@ button.watch(function (err, value) {
 
     if(value === 0){
         count += 1;
-        console.log(count);
     }
 
     //led.writeSync(value);
@@ -21,3 +20,7 @@ process.on('SIGINT', function () {
     led.unexport();
     button.unexport();
 });
+
+setInterval(function(){
+    console.log(count);
+}, 2000);
