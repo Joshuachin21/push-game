@@ -6,7 +6,8 @@ button.watch(function (err, value) {
     if (err) {
         throw err;
     }
-
+console.log('button pushed');
+    console.log(value);
     led.writeSync(value);
 });
 
