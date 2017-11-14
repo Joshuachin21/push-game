@@ -10,8 +10,9 @@ button.watch(function (err, value) {
     }
 console.log('button pushed');
 
+    if(value === 0){
         count += 1;
-
+    }
     console.log(count);
     //led.writeSync(value);
 });
