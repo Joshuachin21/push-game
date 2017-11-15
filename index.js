@@ -2,7 +2,7 @@ var Gpio = require('onoff').Gpio,
     button = new Gpio(4, 'in', 'falling', {
         debounceTimeout : 50
     }),
-    button2 = new Gpio(4, 'in', 'falling', {
+    button2 = new Gpio(17, 'in', 'falling', {
         debounceTimeout : 50
     });
 
@@ -22,7 +22,7 @@ button.watch(function (err, value) {
 
 var count2 = 0;
 button2.watch(function (err2, value2) {
-    if (err2 {
+    if (err2) {
         throw err2;
     }
 
