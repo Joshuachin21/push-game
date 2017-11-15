@@ -53,5 +53,4 @@ setInterval(function(){
     else{
         console.log('it\'s a tie?!');
     }
-    console.log('Player 1 scores:' + count1);
 }, 10000);
