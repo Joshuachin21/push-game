@@ -25,7 +25,7 @@ button2.watch(function (err2, value2) {
     if (err2) {
         throw err2;
     }
-
+console.log(value2);
     if(value2 === 0){
         count2 += 1;
     }
