@@ -2,7 +2,7 @@ var Gpio = require('onoff').Gpio,
     button = new Gpio(4, 'in', 'falling', {
         debounceTimeout : 50
     }),
-    button2 = new Gpio(27, 'in', 'falling', {
+    button2 = new Gpio(18, 'in', 'falling', {
         debounceTimeout : 50
     });
 
@@ -14,6 +14,7 @@ button.watch(function (err, value) {
     }
 
     if(value === 0){
+        console.log('P1 clicked!');
         count1 += 1;
     }
 
@@ -25,8 +26,8 @@ button2.watch(function (err2, value2) {
     if (err2) {
         throw err2;
     }
-console.log(value2);
     if(value2 === 0){
+        console.log('P2 clicked!');
         count2 += 1;
     }
 
