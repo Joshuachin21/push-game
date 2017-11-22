@@ -61,4 +61,9 @@ setInterval(function(){
     else{
         console.log('it\'s a tie?!');
     }
+
+    console.log('====================================================');
+
+    console.log('Player 1 -------------------------- ' + count1 + ' clicks!');
+    console.log('Player 2 -------------------------- ' + count2 + ' clicks!');
 }, 10000);
