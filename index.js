@@ -51,6 +51,9 @@ setInterval(function(){
 }, 2000);*/
 
 setInterval(function(){
+
+    console.log(button);
+    console.log(button2);
     if(count1>count2){
         console.log('Player 1 is winning by ' + (count1 - count2) + ' clicks!');
     }
