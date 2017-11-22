@@ -2,7 +2,7 @@ var Gpio = require('onoff').Gpio;
     button = new Gpio(4, 'in', 'falling', {
         debounceTimeout : 50
     });
-    button2 = new Gpio(18, 'in', 'falling', {
+    button2 = new Gpio(26, 'in', 'falling', {
         debounceTimeout : 50
     });
 
