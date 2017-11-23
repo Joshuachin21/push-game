@@ -11,6 +11,8 @@
     "url": "git+https://github.com/Joshuachin21/push-game.git"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
     "onoff": "^1.1.8"
   },
   "author": "",
