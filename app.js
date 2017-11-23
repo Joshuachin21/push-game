@@ -4,7 +4,7 @@ var io = require('socket.io')(http) //require socket.io module and pass the http
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 var LED = new Gpio(4, 'out'); //use GPIO pin 4 as output
 var pushButton = new Gpio(17, 'in', 'both'); //use GPIO pin 17 as input, and 'both' button presses, and releases should be handled
-
+var rand = 0;
 http.listen(8080); //listen to port 8080
 
 function handler (req, res) { //create server
@@ -33,6 +33,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         lightvalue = data;
         if (lightvalue != LED.readSync()) { //only change LED if status has changed
             console.log('changed light switch pi');
+
+            rand = 11919191498+Date.now();
+            socket.emit('score', rand);
             LED.writeSync(lightvalue); //turn LED on or off
         }
     });
