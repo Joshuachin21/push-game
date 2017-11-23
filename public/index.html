@@ -14,7 +14,9 @@
         });
     });
     socket.on('score', function(data){
-        document.getElementById("score").innerHTML = data;
+       setInterval(function(){
+           document.getElementById("score").innerHTML = data;
+       },1050)
     });
     socket.on('light', function (data) { //get button status from client
         document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
