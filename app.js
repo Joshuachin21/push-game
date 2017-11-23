@@ -35,7 +35,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             console.log('changed light switch pi');
 
             rand = 11919191498+Date.now();
-            socket.emit('score', rand);
+           setTimeout(function () {
+               socket.emit('score', rand);
+           },1000);
             LED.writeSync(lightvalue); //turn LED on or off
         }
     });
