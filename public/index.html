@@ -56,41 +56,45 @@
 
 
 <script>
+
+    var gameSettings = {
+        state: 'menu',
+        timer: 30,
+        mode: 'short'
+    };
+    var socket = io(); //load socket.io-client and connect to the host that serves the page
+    window.addEventListener("load", function () { //when page loads
+        var lightbox = document.getElementById("light");
+        lightbox.addEventListener("change", function () { //add event listener for when checkbox changes
+            console.log('change');
+            socket.emit("light", Number(this.checked)); //send button status to server (as 1 or 0)
+        });
+
+        document.getElementById('start').addEventListener("click", function () { //add event listener for when checkbox changes
+            console.log('clicked');
+            if (gameSettings.state === 'menu') {
+                console.log('menu');
+                socket.emit("start", gameSettings); //send button status to server (as 1 or 0)
+            }
+        });
+    });
+    socket.on('score', function (data) {
+        setTimeout(function () {
+            document.getElementById("score").innerHTML = data;
+        }, 1050)
+    });
+    socket.on('light', function (data) { //get button status from client
+        document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
+        socket.emit("light", data); //send push button status to back to server
+    });
+
+
+
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope) {
         $scope.firstName = "John";
         $scope.lastName = "Doe";
 
-        var gameSettings = {
-            state: 'menu',
-            timer: 30,
-            mode: 'short'
-        };
-        var socket = io(); //load socket.io-client and connect to the host that serves the page
-        window.addEventListener("load", function () { //when page loads
-            var lightbox = document.getElementById("light");
-            lightbox.addEventListener("change", function () { //add event listener for when checkbox changes
-                console.log('change');
-                socket.emit("light", Number(this.checked)); //send button status to server (as 1 or 0)
-            });
-
-            document.getElementById('start').addEventListener("click", function () { //add event listener for when checkbox changes
-                console.log('clicked');
-                if (gameSettings.state === 'menu') {
-                    console.log('menu');
-                    socket.emit("start", gameSettings); //send button status to server (as 1 or 0)
-                }
-            });
-        });
-        socket.on('score', function (data) {
-            setTimeout(function () {
-                document.getElementById("score").innerHTML = data;
-            }, 1050)
-        });
-        socket.on('light', function (data) { //get button status from client
-            document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
-            socket.emit("light", data); //send push button status to back to server
-        });
 
     });
 </script>
