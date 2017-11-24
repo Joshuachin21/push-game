@@ -97,15 +97,12 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     //READ FROM CLIENT
     socket.on('light', function (data) { //get light switch status from client
         lightvalue = data;
-        if (lightvalue != LED.readSync()) { //only change LED if status has changed
             console.log('changed light switch pi');
 
             rand = 11919191498 + Date.now();
             setTimeout(function () {
                 socket.emit('score', rand);
             }, 1000);
-            LED.writeSync(lightvalue); //turn LED on or off
-        }
     });
 
     socket.on('start', function (data) { //get light switch status from client
