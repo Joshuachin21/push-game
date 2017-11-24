@@ -108,7 +108,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     socket.on('start', function (data) { //get light switch status from client
         console.log('read "start"');
 
-        if (data.gameState === 'menu') { //only change LED if status has changed
+        if (data.state === 'menu') { //only change LED if status has changed
             //init countdown for gameStart
             console.log('start button pressed');
             rand = 11919191498 + Date.now();
