@@ -68,7 +68,9 @@
         };
         var socket = io(); //load socket.io-client and connect to the host that serves the page
         window.addEventListener("load", function () { //when page loads
-            document.getElementById("light").addEventListener("change", function () { //add event listener for when checkbox changes
+            var lightbox = document.getElementById("light");
+            lightbox.addEventListener("change", function () { //add event listener for when checkbox changes
+                console.log('change');
                 socket.emit("light", Number(this.checked)); //send button status to server (as 1 or 0)
             });
 
