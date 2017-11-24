@@ -117,7 +117,8 @@
             socket.emit("light", data); //send push button status to back to server
         });
         socket.on('start', function (data) {
-            gameSettings = data;
+            console.log('read start');
+            $scope.gameSettings = data;
         });
 
         socket.on('starting', function (data) {
