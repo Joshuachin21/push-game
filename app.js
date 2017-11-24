@@ -2,10 +2,29 @@ var http = require('http').createServer(handler); //require http server, and cre
 var fs = require('fs'); //require filesystem module
 var io = require('socket.io')(http) //require socket.io module and pass the http object (server)
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-var LED = new Gpio(4, 'out'); //use GPIO pin 4 as output
-var pushButton = new Gpio(17, 'in', 'both'); //use GPIO pin 17 as input, and 'both' button presses, and releases should be handled
+
+var Team1Player1 = new Gpio(4, 'in', 'falling'); //use GPIO pin 17 as input, and 'both' button presses, and releases should be handled
+var Team1Player2 = new Gpio(17, 'in', 'falling'); //use GPIO pin 17 as input, and 'both' button presses, and releases should be handled
+
 var rand = 0;
 http.listen(8080); //listen to port 8080
+
+var gameStates = [
+    'menu',
+    'starting',
+    'play',
+    'finished',
+    'results',
+    'playAgain',
+    'hallOfFame'
+];
+
+var gameSettings = {
+    state:'menu',
+    timer:30
+};
+
+//game start with full gameState Object to run it.
 
 function handler (req, res) { //create server
     fs.readFile(__dirname + '/public/index.html', function(err, data) { //read file index.html in public folder
@@ -19,7 +38,11 @@ function handler (req, res) { //create server
     });
 }
 
+//All Socket Commands
+
 io.sockets.on('connection', function (socket) {// WebSocket Connection
+
+
     var lightvalue = 0; //static variable for current status
     pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton
         if (err) { //if an error
@@ -41,6 +64,10 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             LED.writeSync(lightvalue); //turn LED on or off
         }
     });
+
+
+
+
 });
 
 process.on('SIGINT', function () { //on ctrl+c
