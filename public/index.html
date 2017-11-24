@@ -104,10 +104,8 @@
         };
         $scope.gameSettings = gameSettings;
 
-        setInterval(function () {
             console.log($scope.gameSettings);
             $scope.gameSettings = gameSettings;
-        }, 100);
 
         socket.on('score', function (data) {
             setTimeout(function () {
