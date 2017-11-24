@@ -117,10 +117,10 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             data.score = rand;
             data.countDown = 'Get Ready!';
             socket.emit('starting', data);
+            data.countDown = 3;
             var countdown = setInterval(function () {
 
                 if (data.countDown === 0) {
-
                     data.state = 'play';
                     socket.emit('start', data);
                     clearInterval(this);
