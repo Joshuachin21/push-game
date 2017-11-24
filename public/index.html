@@ -99,7 +99,10 @@ socket.on('starting', function(data){
     app.controller('myCtrl', function ($scope) {
         $scope.firstName = "John";
         $scope.lastName = "Doe";
-        $scope.gameSettings = gameSettings;
+        setInterval(function () {
+
+            $scope.gameSettings = gameSettings;
+        }, 100);
     });
 </script>
 </body>
