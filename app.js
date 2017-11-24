@@ -72,7 +72,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             currentGameSettings.team2Progress = 100 - ((currentGameSettings.p2score/totalScores) * 100);
 
             socket.emit('start', currentGameSettings);
-            if (abs(currentGameSettings.p1score - currentGameSettings.p2score) >=50) {
+            if (Math.abs(currentGameSettings.p1score - currentGameSettings.p2score) >=50) {
                 clearInterval(this);
                 clearInterval(p1loop);
                 clearInterval(p2loop);
