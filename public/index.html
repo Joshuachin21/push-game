@@ -19,7 +19,7 @@
             crossorigin="anonymous"></script>
 
     <style type="text/css">
-        html,div{
+        html, div {
             background-color: #000000;
             color: #ffffff;
         }
@@ -47,30 +47,34 @@
             <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified col-xs-12" role="group"
                  aria-label="...">
                 <div class="btn-group" role="group">
-                    <button type="button" ng-click="startGame()" class="btn btn-success start-btn col-xs-12" id="start">START!</button>
+                    <button type="button" ng-click="startGame()" class="btn btn-success start-btn col-xs-12" id="start">
+                        START!
+                    </button>
                 </div>
             </div>
             <!--Countdown-->
-            <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'" class="col-xs-12">{{gameSettings.countDown}}</div>
+            <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'" class="col-xs-12">
+                {{gameSettings.countDown}}
+            </div>
 
             <!--PLAY-->
             <div ng-if="gameSettings.state == 'play'" class="col-xs-12">
                 <div class="col-xs-6 text-center">{{gameSettings.p1score}}</div>
                 <div class="col-xs-6 text-center">{{gameSettings.p2score}}</div>
-<div class="progress">
-      <div class="progress-bar progress-bar-success" style="width: {{gameSettings.team1progress}}%">
-    <span class="sr-only">35% Complete (success)</span>
-  </div>
-     <div class="progress-bar progress-bar-success" style="width: {{gameSettings.team2progress}}%">
-    <span class="sr-only">35% Complete (success)</span>
-  </div>
 
-</div>
             </div>
         </div>
     </div>
 
-    
+    <div class="progress" ng-if="gameSettings.state == 'play'">
+        <div class="progress-bar progress-bar-success" style="width: {{gameSettings.team1progress}}%">
+            <span class="sr-only">35% Complete (success)</span>
+        </div>
+        <div class="progress-bar progress-bar-success" style="width: {{gameSettings.team2progress}}%">
+            <span class="sr-only">35% Complete (success)</span>
+        </div>
+
+    </div>
 
     <pre>{{gameSettings | json}}</pre>
 </div>
@@ -92,20 +96,18 @@
             timer: 30,
             mode: 'short'
         };
-        var setGameSettings = function(data){
+        var setGameSettings = function (data) {
             $scope.gameSettings = data;
         };
         $rootScope.gameSettings = gameSettings;
         $scope.gameSettings = $rootScope.gameSettings;
 
-            console.log($scope.gameSettings);
-            $scope.gameSettings = gameSettings;
+        console.log($scope.gameSettings);
+        $scope.gameSettings = gameSettings;
 
-        $scope.$on('gameUpdate', function(event, args) {
+        $scope.$on('gameUpdate', function (event, args) {
             $scope.gameSettings = args;
         });
-
-
 
 
         socket.on('score', function (data) {
@@ -134,7 +136,7 @@
 
         });
 
-        $scope.startGame = function(){
+        $scope.startGame = function () {
             if ($scope.gameSettings.state === 'menu') {
                 console.log('menu');
                 socket.emit("start", $scope.gameSettings);
