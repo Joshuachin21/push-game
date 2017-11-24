@@ -68,12 +68,14 @@
         };
         var socket = io(); //load socket.io-client and connect to the host that serves the page
         window.addEventListener("load", function () { //when page loads
-            var lightbox = document.getElementById("light");
-            lightbox.addEventListener("change", function () { //add event listener for when checkbox changes
+            document.getElementById("light").addEventListener("change", function () { //add event listener for when checkbox changes
                 socket.emit("light", Number(this.checked)); //send button status to server (as 1 or 0)
             });
-            start.addEventListener("click", function () { //add event listener for when checkbox changes
+
+            document.getElementById('start').addEventListener("click", function () { //add event listener for when checkbox changes
+                console.log('clicked');
                 if (gameSettings.state === 'menu') {
+                    console.log('menu');
                     socket.emit("start", gameSettings); //send button status to server (as 1 or 0)
                 }
             });
