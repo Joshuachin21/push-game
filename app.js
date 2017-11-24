@@ -59,20 +59,24 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         var p1loop = setInterval(function () {
 
             currentGameSettings.p1score += Math.floor(Math.random() * 6) + 1;
-        });
+        }, 100);
 
         var p2loop = setInterval(function () {
 
             currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
-        });
+        }, 100);
         var gameLoop = setInterval(function () {
 
+            var winningDiff = 100;
+            var diff = Math.abs(currentGameSettings.p1score - currentGameSettings.p2score);
             var totalScores = currentGameSettings.p1score + currentGameSettings.p2score;
-            currentGameSettings.team1Progress = 100 - ((currentGameSettings.p1score/totalScores) * 100);
-            currentGameSettings.team2Progress = 100 - ((currentGameSettings.p2score/totalScores) * 100);
+            currentGameSettings.team1Progress = 100 - ((currentGameSettings.p1score / totalScores) * 100);
+            currentGameSettings.team2Progress = 100 - ((currentGameSettings.p2score / totalScores) * 100);
+            currentGameSettings.team2Progress = (currentGameSettings.p2score - currentGameSettings.p1score) > 0 ? 50 - ((diff / winningDiff) * 100):50 + ((diff / winningDiff) * 100);
+            currentGameSettings.team1Progress = (currentGameSettings.p1score - currentGameSettings.p2score) > 0 ? 50 - ((diff / winningDiff) * 100):50 + ((diff / winningDiff) * 100);
 
             socket.emit('start', currentGameSettings);
-            if (Math.abs(currentGameSettings.p1score - currentGameSettings.p2score) >=50) {
+            if (Math.abs(currentGameSettings.p1score - currentGameSettings.p2score) >= winningDiff) {
                 clearInterval(this);
                 clearInterval(p1loop);
                 clearInterval(p2loop);
