@@ -48,8 +48,11 @@ function handler(req, res) { //create server
 io.sockets.on('connection', function (socket) {// WebSocket Connection
 
     var startGame = function (gameSettings) {
+
         currentGameSettings = gameSettings;
         console.log('GAME STARTED!!!!');
+        socket.emit('start', currentGameSettings);
+
         //game loop
         //endgame scenario
         //start finished

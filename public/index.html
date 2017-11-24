@@ -30,7 +30,6 @@
 <div ng-app="myApp" ng-controller="myCtrl">
     <div class="row">
         <div class="col-xs-12">
-
             <h1 class="text-center">
                 Push Game
             </h1>
@@ -38,12 +37,12 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-
+            <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-success start-btn" id="start">START!</button>
                 </div>
             </div>
+            <div ng-if="gameSettings.state == 'starting'">{{gameSettings.countdown}}</div>
         </div>
     </div>
     <p><input type="checkbox" id="light"></p>
@@ -88,8 +87,13 @@
         document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
         socket.emit("light", data); //send push button status to back to server
     });
+    socket.on('start',function(data){
+        gameSettings = data;
+    });
 
-
+socket.on('starting', function(data){
+    gameSettings = data;
+});
 
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope) {
