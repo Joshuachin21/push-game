@@ -53,7 +53,6 @@
 
         </div>
     </div>
-    <p><input type="checkbox" id="light"></p>
     <div id="score"></div>
     <div id="player1">{{firstName}}</div>
     <div id="player2">{{lastName}}</div>
@@ -115,7 +114,11 @@
         });
 
         socket.on('starting', function (data) {
+            console.log('starting in ' + data.countdown);
             $rootScope.$broadcast('gameUpdate', data);
+
+            $scope.$apply();
+
         });
 
         $scope.startGame = function(){
