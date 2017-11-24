@@ -51,6 +51,38 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         currentGameSettings = gameSettings;
         console.log('GAME STARTED!!!!');
+
+
+        currentGameSettings.p1score += 0;
+        currentGameSettings.p2score += 0;
+        currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
+        var p1loop = setInterval(function () {
+
+            currentGameSettings.p1score += Math.floor(Math.random() * 6) + 1;
+        });
+
+        var p2loop = setInterval(function () {
+
+            currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
+        });
+        var gameLoop = setInterval(function () {
+
+            var totalScores = currentGameSettings.p1score + currentGameSettings.p2score;
+            currentGameSettings.team1Progress = 100 - ((currentGameSettings.p1score/totalScores) * 100);
+            currentGameSettings.team2Progress = 100 - ((currentGameSettings.p2score/totalScores) * 100);
+
+            socket.emit('start', currentGameSettings);
+            if (abs(currentGameSettings.p1score - currentGameSettings.p2score) >=50) {
+                clearInterval(this);
+                clearInterval(p1loop);
+                clearInterval(p2loop);
+                currentGameSettings.state = 'finished';
+
+                socket.emit('finished', currentGameSettings);
+
+            }
+        }, 100);
+
         //socket.emit('start', currentGameSettings);
 
         //game loop
@@ -97,12 +129,12 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     //READ FROM CLIENT
     socket.on('light', function (data) { //get light switch status from client
         lightvalue = data;
-            console.log('changed light switch pi');
+        console.log('changed light switch pi');
 
-            rand = 11919191498 + Date.now();
-            setTimeout(function () {
-                socket.emit('score', rand);
-            }, 1000);
+        rand = 11919191498 + Date.now();
+        setTimeout(function () {
+            socket.emit('score', rand);
+        }, 1000);
     });
 
     socket.on('start', function (data) { //get light switch status from client
