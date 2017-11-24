@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         currentGameSettings = gameSettings;
         console.log('GAME STARTED!!!!');
-        socket.emit('start', currentGameSettings);
+        //socket.emit('start', currentGameSettings);
 
         //game loop
         //endgame scenario
@@ -120,9 +120,10 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             var countdown = setInterval(function () {
 
                 if (data.countDown === 0) {
+
+                    data.state = 'play';
                     socket.emit('start', data);
                     clearInterval(this);
-                    data.state = 'play';
                     console.log(data);
                     startGame(data);
                 }

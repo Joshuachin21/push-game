@@ -102,7 +102,7 @@
         socket.on('start', function (data) {
             console.log('read start');
             console.log(data);
-            $rootScope.$broadcast('scanner-started', { any: {} });
+            $rootScope.$broadcast('start', data);
             $rootScope.gameSettings = data;
             $scope.$apply();
             //setGameSettings(data);
