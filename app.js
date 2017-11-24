@@ -121,6 +121,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             var countdown = setInterval(function () {
 
                 if (data.countDown === 0) {
+
+                    data.countDown = 'Go!';
                     data.state = 'play';
                     socket.emit('start', data);
                     clearInterval(this);

@@ -46,16 +46,14 @@
                 </div>
             </div>
             <!--Countdown-->
-            <div ng-if="gameSettings.state == 'starting'">{{gameSettings.countDown}}</div>
+            <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'">{{gameSettings.countDown}}</div>
 
             <!--PLAY-->
             <div ng-if="gameSettings.state == 'play'">{{gameSettings.score}}</div>
 
         </div>
     </div>
-    <div id="score"></div>
-    <div id="player1">{{firstName}}</div>
-    <div id="player2">{{lastName}}</div>
+
     <pre>{{gameSettings | json}}</pre>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
