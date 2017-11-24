@@ -56,12 +56,11 @@
             <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'" class="col-xs-12">
                 {{gameSettings.countDown}}
             </div>
-            <div ng-if="gameSettings.state == 'finished" class="col-xs-12">
+            <div ng-if="gameSettings.state == 'finished'" class="col-xs-12">
                 <div class="col-xs-6 text-center">{{gameSettings.winner.name}} is the WINNER!</div>
-
             </div>
             <!--PLAY-->
-            <div ng-if="gameSettings.state == 'play' || gameSettings.state == 'finished" class="col-xs-12">
+            <div ng-if="gameSettings.state == 'play' || gameSettings.state == 'finished'" class="col-xs-12">
                 <div class="col-xs-6 text-center">{{gameSettings.p1score}}</div>
                 <div class="col-xs-6 text-center">{{gameSettings.p2score}}</div>
 
