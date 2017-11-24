@@ -73,8 +73,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             var totalScores = currentGameSettings.p1score + currentGameSettings.p2score;
             currentGameSettings.team1Progress = 100 - ((currentGameSettings.p1score / totalScores) * 100);
             currentGameSettings.team2Progress = 100 - ((currentGameSettings.p2score / totalScores) * 100);
-            currentGameSettings.team2Progress = (currentGameSettings.p2score - currentGameSettings.p1score) < 0 ? (100 - ((diff / winningDiff) * 100)) / players:(100 + ((diff / winningDiff) * 100))/players;
-            currentGameSettings.team1Progress = (currentGameSettings.p1score - currentGameSettings.p2score) < 0 ? (100 - ((diff / winningDiff) * 100)) / players:(100 + ((diff / winningDiff) * 100))/players;
+            currentGameSettings.team2Progress = (currentGameSettings.p2score - currentGameSettings.p1score) < 0 ? (100 - ((diff / winningDiff) * 100)) / players : (100 + ((diff / winningDiff) * 100)) / players;
+            currentGameSettings.team1Progress = (currentGameSettings.p1score - currentGameSettings.p2score) < 0 ? (100 - ((diff / winningDiff) * 100)) / players : (100 + ((diff / winningDiff) * 100)) / players;
 
             socket.emit('start', currentGameSettings);
             if (Math.abs(currentGameSettings.p1score - currentGameSettings.p2score) >= winningDiff) {
@@ -82,6 +82,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
                 clearInterval(p1loop);
                 clearInterval(p2loop);
                 currentGameSettings.state = 'finished';
+                currentGameSettings.winner = {
+                    name: currentGameSettings.p1score > currentGameSettings.p2score ? 'Player 1' : 'Player 2'
+                };
 
                 socket.emit('finished', currentGameSettings);
 
