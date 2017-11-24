@@ -46,7 +46,7 @@
                 </div>
             </div>
             <!--Countdown-->
-            <div ng-if="gameSettings.state == 'starting'">{{gameSettings.countdown}}</div>
+            <div ng-if="gameSettings.state == 'starting'">{{gameSettings.coundDown}}</div>
 
             <!--PLAY-->
             <div ng-if="gameSettings.state == 'play'">{{gameSettings.score}}</div>
@@ -114,7 +114,7 @@
         });
 
         socket.on('starting', function (data) {
-            console.log('starting in ' + data.countdown);
+            console.log('starting in ' + data.countDown);
             $rootScope.$broadcast('gameUpdate', data);
 
             $scope.$apply();
