@@ -37,7 +37,8 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified" role="group"
+                 aria-label="...">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-success start-btn" id="start">START!</button>
                 </div>
@@ -57,12 +58,9 @@
 
 <script>
 
-    var gameSettings = {
-        state: 'menu',
-        timer: 30,
-        mode: 'short'
-    };
+
     var socket = io(); //load socket.io-client and connect to the host that serves the page
+
     window.addEventListener("load", function () { //when page loads
         var lightbox = document.getElementById("light");
         lightbox.addEventListener("change", function () { //add event listener for when checkbox changes
@@ -87,25 +85,55 @@
         document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
         socket.emit("light", data); //send push button status to back to server
     });
-    socket.on('start',function(data){
+    socket.on('start', function (data) {
         gameSettings = data;
     });
 
-socket.on('starting', function(data){
-    gameSettings = data;
-});
+    socket.on('starting', function (data) {
+        gameSettings = data;
+    });
 
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope) {
         $scope.firstName = "John";
         $scope.lastName = "Doe";
-
+        var gameSettings = {
+            state: 'menu',
+            timer: 30,
+            mode: 'short'
+        };
         $scope.gameSettings = gameSettings;
 
         setInterval(function () {
-console.log($scope.gameSettings);
+            console.log($scope.gameSettings);
             $scope.gameSettings = gameSettings;
         }, 100);
+
+        socket.on('score', function (data) {
+            setTimeout(function () {
+                document.getElementById("score").innerHTML = data;
+            }, 1050)
+        });
+        socket.on('light', function (data) { //get button status from client
+            document.getElementById("light").checked = data; //change checkbox according to push button on Raspberry Pi
+            socket.emit("light", data); //send push button status to back to server
+        });
+        socket.on('start', function (data) {
+            gameSettings = data;
+        });
+
+        socket.on('starting', function (data) {
+            gameSettings = data;
+        });
+
+        $scope.startGame = function(){
+            if ($scope.gameSettings.state === 'menu') {
+                console.log('menu');
+                socket.emit("start", $scope.gameSettings); //send button status to server (as 1 or 0)
+            }
+        }
+
+
     });
 
 
