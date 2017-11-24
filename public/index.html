@@ -40,7 +40,7 @@
             <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified" role="group"
                  aria-label="...">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-success start-btn" id="start">START!</button>
+                    <button type="button" ng-click="startGame()" class="btn btn-success start-btn" id="start">START!</button>
                 </div>
             </div>
             <div ng-if="gameSettings.state == 'starting'">{{gameSettings.countdown}}</div>
