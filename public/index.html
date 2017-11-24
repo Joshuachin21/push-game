@@ -94,7 +94,7 @@
     });
 
     var app = angular.module('myApp', []);
-    app.controller('myCtrl', function ($scope) {
+    app.controller('myCtrl', function ($scope, $rootScope) {
         $scope.firstName = "John";
         $scope.lastName = "Doe";
         var gameSettings = {
@@ -105,7 +105,8 @@
         var setGameSettings = function(data){
             $scope.gameSettings = data;
         };
-        $scope.gameSettings = gameSettings;
+        $rootScope.gameSettings = gameSettings;
+        $scope.gameSettings = $rootScope.gameSettings;
 
             console.log($scope.gameSettings);
             $scope.gameSettings = gameSettings;
@@ -121,11 +122,12 @@
         });
         socket.on('start', function (data) {
             console.log('read start');
-            setGameSettings(data);
+            $rootScope.gameSettings = data;
+            //setGameSettings(data);
         });
 
         socket.on('starting', function (data) {
-            gameSettings = data;
+            $rootScope.gameSettings = data;
         });
 
         $scope.startGame = function(){
