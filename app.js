@@ -12,6 +12,7 @@ var Team2Player1 = new Gpio(17, 'in', 'falling', {
 
 var rand = 0;
 http.listen(8080); //listen to port 8080
+console.log('listening on 8080');
 
 var gameStates = [
     'menu',
@@ -105,6 +106,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     });
 
     socket.on('start', function (data) { //get light switch status from client
+        console.log('read "start"');
 
         if (data.gameState === 'menu') { //only change LED if status has changed
             //init countdown for gameStart
