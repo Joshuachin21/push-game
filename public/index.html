@@ -102,6 +102,9 @@
             timer: 30,
             mode: 'short'
         };
+        var setGameSettings = function(data){
+            $scope.gameSettings = data;
+        };
         $scope.gameSettings = gameSettings;
 
             console.log($scope.gameSettings);
@@ -118,7 +121,7 @@
         });
         socket.on('start', function (data) {
             console.log('read start');
-            $scope.gameSettings = data;
+            setGameSettings(data);
         });
 
         socket.on('starting', function (data) {
