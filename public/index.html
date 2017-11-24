@@ -37,13 +37,20 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
+
+            <!--Menu-->
             <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified" role="group"
                  aria-label="...">
                 <div class="btn-group" role="group">
                     <button type="button" ng-click="startGame()" class="btn btn-success start-btn" id="start">START!</button>
                 </div>
             </div>
+            <!--Countdown-->
             <div ng-if="gameSettings.state == 'starting'">{{gameSettings.countdown}}</div>
+
+            <!--PLAY-->
+            <div ng-if="gameSettings.state == 'play'">{{gameSettings.score}}</div>
+
         </div>
     </div>
     <p><input type="checkbox" id="light"></p>
@@ -82,8 +89,7 @@
 
 
 
-        $scope.$on('start', function(event, args) {
-
+        $scope.$on('gameUpdate', function(event, args) {
             $scope.gameSettings = args;
         });
 
@@ -102,14 +108,14 @@
         socket.on('start', function (data) {
             console.log('read start');
             console.log(data);
-            $rootScope.$broadcast('start', data);
+            $rootScope.$broadcast('gameUpdate', data);
             $rootScope.gameSettings = data;
             $scope.$apply();
             //setGameSettings(data);
         });
 
         socket.on('starting', function (data) {
-            $rootScope.gameSettings = data;
+            $rootScope.$broadcast('gameUpdate', data);
         });
 
         $scope.startGame = function(){
