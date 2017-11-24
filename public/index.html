@@ -79,6 +79,17 @@
             console.log($scope.gameSettings);
             $scope.gameSettings = gameSettings;
 
+
+
+
+        $scope.$on('start', function(event, args) {
+
+            $scope.gameSettings = args;
+        });
+
+
+
+
         socket.on('score', function (data) {
             setTimeout(function () {
                 document.getElementById("score").innerHTML = data;
@@ -91,9 +102,9 @@
         socket.on('start', function (data) {
             console.log('read start');
             console.log(data);
-
+            $rootScope.$broadcast('scanner-started', { any: {} });
             $rootScope.gameSettings = data;
-            $scope.apply();
+            $scope.$apply();
             //setGameSettings(data);
         });
 
