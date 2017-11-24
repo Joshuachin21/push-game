@@ -55,10 +55,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         currentGameSettings.p1score = 0;
         currentGameSettings.p2score = 0;
-        currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
         var p1loop = setInterval(function () {
 
-            currentGameSettings.p1score += Math.floor(Math.random() * 6) + 1;
+            currentGameSettings.p1score += Math.floor(Math.random() * 8) + 1;
         }, 100);
 
         var p2loop = setInterval(function () {
