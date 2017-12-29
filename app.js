@@ -47,7 +47,7 @@ function handler(req, res) { //create server
 
 //All Socket Commands
 
-io.sockets.on('connection', function (socket) {// WebSocket Connection
+io.on('connection', function (socket) {// WebSocket Connection
 
     var startGame = function (gameSettings) {
 
