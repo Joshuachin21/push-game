@@ -10,6 +10,7 @@ var Team2Player1 = new Gpio(17, 'in', 'falling', {
     debounceTimeout: 50
 });
 
+const MODE = 'live';
 var rand = 0;
 http.listen(8080); //listen to port 8080
 console.log('listening on 8080');
@@ -55,15 +56,17 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         currentGameSettings.p1score = 0;
         currentGameSettings.p2score = 0;
-        var p1loop = setInterval(function () {
+        if (MODE && MODE === 'demo') {
+            var p1loop = setInterval(function () {
 
-            currentGameSettings.p1score += Math.floor(Math.random() * 8) + 1;
-        }, 100);
+                currentGameSettings.p1score += Math.floor(Math.random() * 8) + 1;
+            }, 100);
 
-        var p2loop = setInterval(function () {
+            var p2loop = setInterval(function () {
 
-            currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
-        }, 100);
+                currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
+            }, 100);
+        }
         var gameLoop = setInterval(function () {
 
             var winningDiff = 100;
@@ -78,8 +81,10 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             socket.emit('start', currentGameSettings);
             if (Math.abs(currentGameSettings.p1score - currentGameSettings.p2score) >= winningDiff) {
                 clearInterval(this);
-                clearInterval(p1loop);
-                clearInterval(p2loop);
+                if (MODE && MODE === 'demo') {
+                    clearInterval(p1loop);
+                    clearInterval(p2loop);
+                }
                 currentGameSettings.state = 'finished';
                 currentGameSettings.winner = {
                     name: currentGameSettings.p1score > currentGameSettings.p2score ? 'Player 1' : 'Player 2'
