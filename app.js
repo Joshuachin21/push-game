@@ -116,7 +116,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         if (currentGameSettings.state === 'play') {
             if (value === 0) {
                 console.log('P1 clicked!');
-                count1 += 1;
+                currentGameSettings.p1score += 1;
             }
         }
 
@@ -132,7 +132,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         if (currentGameSettings.state === 'play') {
             if (value === 0) {
                 console.log('P2 clicked!');
-                count2 += 1;
+                currentGameSettings.p2score += 1;
             }
         }
     });
