@@ -158,8 +158,19 @@
         socket.on('checkGame', function (data) {
             console.log('checkGame');
             console.log(data);
-            $rootScope.$broadcast('gameUpdate', data);
-            $scope.$apply();
+
+            if(data.state === 'play'){
+
+                socket.emit("continueGame", data);
+
+
+            }
+            else{
+
+                $rootScope.$broadcast('gameUpdate', data);
+                $scope.$apply();
+            }
+
 
         });
         socket.on('finished', function (data) {

@@ -103,6 +103,61 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
     };
 
+    var continueGame = function (gameSettings) {
+
+        currentGameSettings = gameSettings;
+        console.log('GAME STARTED!!!!');
+
+
+        currentGameSettings.p1score = 0;
+        currentGameSettings.p2score = 0;
+        if (MODE && MODE === 'demo') {
+            var p1loop = setInterval(function () {
+
+                currentGameSettings.p1score += Math.floor(Math.random() * 8) + 1;
+            }, 100);
+
+            var p2loop = setInterval(function () {
+
+                currentGameSettings.p2score += Math.floor(Math.random() * 6) + 1;
+            }, 100);
+        }
+        var gameLoop = setInterval(function () {
+
+            var winningDiff = 100;
+            var diff = Math.abs(currentGameSettings.p1score - currentGameSettings.p2score);
+            var players = 2;
+            var totalScores = currentGameSettings.p1score + currentGameSettings.p2score;
+            currentGameSettings.team1Progress = 100 - ((currentGameSettings.p1score / totalScores) * 100);
+            currentGameSettings.team2Progress = 100 - ((currentGameSettings.p2score / totalScores) * 100);
+            currentGameSettings.team2Progress = (currentGameSettings.p2score - currentGameSettings.p1score) < 0 ? (100 - ((diff / winningDiff) * 100)) / players : (100 + ((diff / winningDiff) * 100)) / players;
+            currentGameSettings.team1Progress = (currentGameSettings.p1score - currentGameSettings.p2score) < 0 ? (100 - ((diff / winningDiff) * 100)) / players : (100 + ((diff / winningDiff) * 100)) / players;
+
+            socket.emit('start', currentGameSettings);
+            if (Math.abs(currentGameSettings.p1score - currentGameSettings.p2score) >= winningDiff) {
+                clearInterval(this);
+                if (MODE && MODE === 'demo') {
+                    clearInterval(p1loop);
+                    clearInterval(p2loop);
+                }
+                currentGameSettings.state = 'finished';
+                currentGameSettings.winner = {
+                    name: currentGameSettings.p1score > currentGameSettings.p2score ? 'Player 1' : 'Player 2'
+                };
+
+                socket.emit('finished', currentGameSettings);
+
+            }
+        }, 100);
+
+        //socket.emit('start', currentGameSettings);
+
+        //game loop
+        //endgame scenario
+        //start finished
+
+    };
+
     var lightvalue = 0; //static variable for current status
 
     //PUSH TO CLIENT || HARDWARE READ
@@ -172,6 +227,12 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     socket.on('checkGame', function (data) { //get light switch status from client
 
         socket.emit('checkGame', currentGameSettings);
+
+    });
+
+    socket.on('continueGame', function (data) { //get light switch status from client
+        continueGame(currentGameSettings);
+
 
     });
 
