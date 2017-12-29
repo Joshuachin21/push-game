@@ -1,12 +1,12 @@
 var http = require('http').createServer(handler); //require http server, and create server with function handler()
 var fs = require('fs'); //require filesystem module
 var io = require('socket.io')(http); //require socket.io module and pass the http object (server)
-io = io.of('/push-game');
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 
 var Team1Player1 = new Gpio(4, 'in', 'falling', {
     debounceTimeout: 50
 });
+
 var Team2Player1 = new Gpio(17, 'in', 'falling', {
     debounceTimeout: 50
 });
@@ -47,7 +47,7 @@ function handler(req, res) { //create server
 
 //All Socket Commands
 
-io.on('connection', function (socket) {// WebSocket Connection
+io.sockets.on('connection', function (socket) {// WebSocket Connection
 
     var startGame = function (gameSettings) {
 
