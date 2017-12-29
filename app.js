@@ -153,8 +153,18 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         if (currentGameSettings.state === 'play') {
 
-                console.log('P1 clicked!');
-                currentGameSettings.p1score += 1;
+            console.log('P1 clicked! REMOTE');
+            currentGameSettings.p1score += 1;
+
+        }
+    });
+
+    socket.on('p2button', function (data) { //get light switch status from client
+
+        if (currentGameSettings.state === 'play') {
+
+            console.log('P2 clicked! REMOTE');
+            currentGameSettings.p2score += 1;
 
         }
     });

@@ -66,6 +66,7 @@
 
             </div>      <div ng-if="gameSettings.state == 'play' " class="col-xs-12">
                 <button class="col-xs-6 text-center" ng-click="p1button()">HIT!</button>
+                <button class="col-xs-6 text-center" ng-click="p2button()">HIT!</button>
 
 
             </div>
@@ -157,6 +158,13 @@
             if ($scope.gameSettings.state === 'play') {
                 console.log('p1button');
                 socket.emit("p1button", $scope.gameSettings);
+            }
+        }
+
+        $scope.p2button = function () {
+            if ($scope.gameSettings.state === 'play') {
+                console.log('p2button');
+                socket.emit("p2button", $scope.gameSettings);
             }
         }
 
