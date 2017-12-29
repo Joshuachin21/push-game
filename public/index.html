@@ -157,6 +157,7 @@
         });
         socket.on('checkGame', function (data) {
             console.log('checkGame');
+            console.log(data);
             $rootScope.$broadcast('gameUpdate', data);
             $scope.$apply();
 
