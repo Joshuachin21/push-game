@@ -149,6 +149,17 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }, 1000);
     });
 
+    socket.on('p1button', function (data) { //get light switch status from client
+
+        if (currentGameSettings.state === 'play') {
+
+                console.log('P1 clicked!');
+                currentGameSettings.p1score += 1;
+
+        }
+    });
+
+
     socket.on('start', function (data) { //get light switch status from client
         console.log('read "start"');
 
