@@ -32,7 +32,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 </head>
 <body>
-<div ng-app="myApp" ng-controller="myCtrl" class="row">
+<div ng-app="myApp" ng-controller="myCtrl" class="row" ng-init="init()">
     <div class="row">
         <div class="col-xs-12">
             <div class="col-xs-12 title">
@@ -112,6 +112,19 @@
         console.log($scope.gameSettings);
         $scope.gameSettings = gameSettings;
 
+
+
+
+        $scope.init = function(){
+
+            socket.emit("checkGame", $scope.gameSettings);
+
+        };
+
+
+        //LISTENERS
+
+
         $scope.$on('gameUpdate', function (event, args) {
             $scope.gameSettings = args;
         });
@@ -139,6 +152,12 @@
             console.log('starting in ' + data.countDown);
             $rootScope.$broadcast('gameUpdate', data);
 
+            $scope.$apply();
+
+        });
+        socket.on('checkGame', function (data) {
+            console.log('checkGame');
+            $rootScope.$broadcast('gameUpdate', data);
             $scope.$apply();
 
         });

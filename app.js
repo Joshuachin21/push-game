@@ -169,6 +169,12 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
     });
 
+    socket.on('checkGame', function (data) { //get light switch status from client
+
+        socket.emit('checkGame', data);
+
+    });
+
 
     socket.on('start', function (data) { //get light switch status from client
         console.log('read "start"');
