@@ -171,7 +171,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
     socket.on('checkGame', function (data) { //get light switch status from client
 
-        socket.emit('checkGame', data);
+        socket.emit('checkGame', currentGameSettings);
 
     });
 
