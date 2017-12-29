@@ -159,16 +159,11 @@
             console.log('checkGame');
             console.log(data);
 
-            if(data.state === 'play'){
+            if(data.state === 'play' || data.state === 'starting'){
 
                 socket.emit("continueGame", data);
 
 
-            }
-            else{
-
-                $rootScope.$broadcast('gameUpdate', data);
-                $scope.$apply();
             }
 
 
