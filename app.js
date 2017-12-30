@@ -16,10 +16,10 @@ var Team1Player3 = new Gpio(22, 'in', 'falling', {
 var Team2Player1 = new Gpio(18, 'in', 'falling', {
     debounceTimeout: 100
 });
-var Team2Player1 = new Gpio(23, 'in', 'falling', {
+var Team2Player2 = new Gpio(23, 'in', 'falling', {
     debounceTimeout: 100
 });
-var Team2Player1 = new Gpio(6, 'in', 'falling', {
+var Team2Player3 = new Gpio(6, 'in', 'falling', {
     debounceTimeout: 100
 });
 
