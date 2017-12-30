@@ -33,7 +33,10 @@
             height: 200px;
             font-size: 40px;
             text-align: center;
-            rotation: 90deg;
+            /* Rotate div */
+            -ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Safari 3-8 */
+            transform: rotate(90deg);
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
