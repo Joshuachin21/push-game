@@ -125,7 +125,7 @@
                       <div ng-if="gameSettings.state == 'finished'" class="col-xs-12">
                 <div class="text-center results">{{gameSettings.winner.name}} is the WINNER!</div>
             </div>
-                          <div class="col-xs-12 replay-btn-container">   
+                          <div ng-if="gameSettings.state == 'finished'" class="col-xs-12 replay-btn-container">   
                 <button type="button" ng-click="startGame()" class="btn btn-success replay-btn">
                         REPLAY!
                     </button>
