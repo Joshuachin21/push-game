@@ -163,6 +163,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
     //PUSH TO CLIENT || HARDWARE READ
     Team1Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        console.log('clicked 1');
+        console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -181,6 +183,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
 
     Team2Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        console.log('clicked 2');
+        console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
