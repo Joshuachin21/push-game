@@ -7,7 +7,7 @@ var Team1Player1 = new Gpio(4, 'in', 'falling', {
     debounceTimeout: 50
 });
 
-var Team2Player1 = new Gpio(17, 'in', 'falling', {
+var Team2Player1 = new Gpio(19, 'in', 'falling', {
     debounceTimeout: 50
 });
 
