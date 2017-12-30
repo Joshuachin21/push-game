@@ -60,7 +60,7 @@ function handler(req, res) { //create server
 //All Socket Commands
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
-    Gpio.unwatchAll();
+
     var startGame = function (gameSettings) {
 
         currentGameSettings = gameSettings;
@@ -175,6 +175,13 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
     //PUSH TO CLIENT || HARDWARE READ
 
+    //clear currents
+    Team1Player1.unwatchAll();
+    Team1Player2.unwatchAll();
+    Team1Player3.unwatchAll();
+    Team2Player1.unwatchAll();
+    Team2Player2.unwatchAll();
+    Team2Player3.unwatchAll();
 
     Team1Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
         console.log('clicked 1 - 1');
