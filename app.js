@@ -60,7 +60,7 @@ function handler(req, res) { //create server
 //All Socket Commands
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
-
+    Gpio.unwatchAll();
     var startGame = function (gameSettings) {
 
         currentGameSettings = gameSettings;
