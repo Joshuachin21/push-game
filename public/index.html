@@ -24,6 +24,10 @@
             color: #ffffff;
         }
 
+        .title{
+            text-align: center;
+        }
+
         .start-btn {
             height: 70px;
             margin: 25px;
@@ -43,6 +47,26 @@
             -ms-transform: rotate(90deg); /* IE 9 */
             -webkit-transform: rotate(90deg); /* Safari 3-8 */
             transform: rotate(90deg);
+            background: none;
+
+        }       
+
+
+
+
+     .countdown2 {
+            position: fixed;
+            top: 10%;
+            right: 10%;
+            z-index: 9999999;
+            width: 200px;
+            height: 200px;
+            font-size: 80px;
+            text-align: center;
+            /* Rotate div */
+            -ms-transform: rotate(270deg); /* IE 9 */
+            -webkit-transform: rotate(270deg); /* Safari 3-8 */
+            transform: rotate(270deg);
             background: none;
 
         }
@@ -98,8 +122,10 @@
 
 
             <!--=========================================================COUNTDOWN===========================================COUNTDOWN-->
-            <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'" class="col-xs-12">
+            <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'">
                 <div class="countdown">{{gameSettings.countDown}}</div>
+            </div>            <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'" >
+                <div class="countdown2">{{gameSettings.countDown}}</div>
             </div>
             <div ng-if="gameSettings.state == 'finished'" class="col-xs-12">
                 <div class="col-xs-6 text-center">{{gameSettings.winner.name}} is the WINNER!</div>
