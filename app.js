@@ -100,7 +100,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
                 }
                 currentGameSettings.state = 'finished';
                 currentGameSettings.winner = {
-                    name: currentGameSettings.p1score > currentGameSettings.p2score ? 'Player 1' : 'Player 2'
+                    name: currentGameSettings.p1score > currentGameSettings.p2score ? 'Team 1' : 'Team 2'
                 };
 
                 socket.emit('finished', currentGameSettings);
