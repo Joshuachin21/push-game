@@ -36,7 +36,14 @@
             height: 70px;
             margin: 25px;
         }
-
+       .replay-btn {
+            height: 30px;
+            width: 100px;
+            margin: 5px;
+        }
+        .replay-btn-container{
+            text-align: center;
+        }
        .results{
           text-align: center;
             font-size: 20px;
@@ -118,6 +125,11 @@
                       <div ng-if="gameSettings.state == 'finished'" class="col-xs-12">
                 <div class="text-center results">{{gameSettings.winner.name}} is the WINNER!</div>
             </div>
+                          <div class="col-xs-12 replay-btn-container">   
+                <button type="button" ng-click="startGame()" class="btn btn-success replay-btn">
+                        REPLAY!
+                    </button>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -127,7 +139,7 @@
             <div ng-if="gameSettings.state == 'menu'" class="btn-group btn-group-justified col-xs-12" role="group"
                  aria-label="...">
                 <div class="btn-group" role="group">
-                    <button type="button" ng-click="startGame()" class="btn btn-success start-btn col-xs-12" id="start">
+                    <button type="button" ng-click="startGame()" class="btn btn-success replay-btn col-xs-12" id="start">
                         START!
                     </button>
                 </div>
