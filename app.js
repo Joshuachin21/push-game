@@ -4,23 +4,23 @@ var io = require('socket.io')(http); //require socket.io module and pass the htt
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 
 var Team1Player1 = new Gpio(4, 'in', 'falling', {
-    debounceTimeout: 100
+    debounceTimeout: 50
 });
 var Team1Player2 = new Gpio(17, 'in', 'falling', {
-    debounceTimeout: 100
+    debounceTimeout: 50
 });
 var Team1Player3 = new Gpio(22, 'in', 'falling', {
-    debounceTimeout: 100
+    debounceTimeout: 50
 });
 
 var Team2Player1 = new Gpio(18, 'in', 'falling', {
-    debounceTimeout: 100
+    debounceTimeout: 50
 });
 var Team2Player2 = new Gpio(23, 'in', 'falling', {
-    debounceTimeout: 100
+    debounceTimeout: 50
 });
-var Team2Player3 = new Gpio(6, 'in', 'falling', {
-    debounceTimeout: 100
+var Team2Player3 = new Gpio(24, 'in', 'falling', {
+    debounceTimeout: 50
 });
 
 const MODE = 'live';
