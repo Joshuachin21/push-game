@@ -28,7 +28,9 @@
             height: 70px;
             margin: 25px;
         }
-        .countdown{
+
+        .countdown {
+            position: absolute;
             width: 200px;
             height: 200px;
             font-size: 40px;
@@ -37,6 +39,26 @@
             -ms-transform: rotate(90deg); /* IE 9 */
             -webkit-transform: rotate(90deg); /* Safari 3-8 */
             transform: rotate(90deg);
+        }
+
+        .score1 {
+            width: 50px;
+            font-size: 40px;
+            text-align: center;
+            /* Rotate div */
+            -ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Safari 3-8 */
+            transform: rotate(90deg);
+        }
+
+        .score2 {
+            width: 50px;
+            font-size: 40px;
+            text-align: center;
+            /* Rotate div */
+            -ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Safari 3-8 */
+            transform: rotate(270deg);
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -78,8 +100,19 @@
 
             <!--=========================================================PLAY=================================================PLAY-->
             <div ng-if="gameSettings.state == 'play' || gameSettings.state == 'finished'" class="col-xs-12">
-                <div class="col-xs-6 text-center">{{gameSettings.p1score}}</div>
-                <div class="col-xs-6 text-center">{{gameSettings.p2score}}</div>
+              <div class="col-xs-5 text-center">
+                    <div class=" score1">&nbsp;</div>
+                </div>
+                <div class="col-xs-1 text-center">
+                    <div class=" score1">{{gameSettings.p1score}}</div>
+                </div>
+
+                <div class="col-xs-1 text-center">
+                    <div class=" score2">{{gameSettings.p2score}}</div>
+                </div>
+                <div class="col-xs-5 text-center">
+                    <div class=" score2">&nbsp;</div>
+                </div>
 
             </div>      <div ng-if="gameSettings.state == 'play' " class="col-xs-12">
                 <button class="col-xs-6 text-center" ng-click="p1button()">HIT!</button>
