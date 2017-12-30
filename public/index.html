@@ -36,7 +36,7 @@
        
         .countdown {
             position: fixed;
-            top: 10%;
+            top: 15%;
             left: 10%;
             z-index: 9999999;
             width: 200px;
@@ -56,7 +56,7 @@
 
      .countdown2 {
             position: fixed;
-            top: 10%;
+            top: 15%;
             right: 10%;
             z-index: 9999999;
             width: 200px;
@@ -89,6 +89,10 @@
             -ms-transform: rotate(90deg); /* IE 9 */
             -webkit-transform: rotate(90deg); /* Safari 3-8 */
             transform: rotate(270deg);
+        }
+
+        .score-container{
+            height: 120px;
         }
                 .progress{
             height:100px;
@@ -135,18 +139,18 @@
 
             <!--=========================================================PLAY=================================================PLAY-->
             <div ng-if="gameSettings.state == 'play' || gameSettings.state == 'finished'" class="col-xs-12">
-              <div class="col-xs-5 text-center">
-                    <div class=" score1">&nbsp;</div>
+              <div class="score-container col-xs-5 text-center">
+                    <div class="score score1">&nbsp;</div>
                 </div>
-                <div class="col-xs-1 text-center">
-                    <div class=" score1">{{gameSettings.p1score}}</div>
+                <div class="score-container col-xs-1 text-center">
+                    <div class="score score1">{{gameSettings.p1score}}</div>
                 </div>
 
-                <div class="col-xs-1 text-center">
-                    <div class=" score2">{{gameSettings.p2score}}</div>
+                <div class="score-container col-xs-1 text-center">
+                    <div class="score score2">{{gameSettings.p2score}}</div>
                 </div>
-                <div class="col-xs-5 text-center">
-                    <div class=" score2">&nbsp;</div>
+                <div class="score-container col-xs-5 text-center">
+                    <div class="score score2">&nbsp;</div>
                 </div>
 
             </div>      <div ng-if="gameSettings.state == 'play' " class="col-xs-12">
