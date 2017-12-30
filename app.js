@@ -4,11 +4,23 @@ var io = require('socket.io')(http); //require socket.io module and pass the htt
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 
 var Team1Player1 = new Gpio(4, 'in', 'falling', {
-    debounceTimeout: 50
+    debounceTimeout: 100
+});
+var Team1Player2 = new Gpio(17, 'in', 'falling', {
+    debounceTimeout: 100
+});
+var Team1Player3 = new Gpio(22, 'in', 'falling', {
+    debounceTimeout: 100
 });
 
-var Team2Player1 = new Gpio(19, 'in', 'falling', {
-    debounceTimeout: 50
+var Team2Player1 = new Gpio(18, 'in', 'falling', {
+    debounceTimeout: 100
+});
+var Team2Player1 = new Gpio(23, 'in', 'falling', {
+    debounceTimeout: 100
+});
+var Team2Player1 = new Gpio(6, 'in', 'falling', {
+    debounceTimeout: 100
 });
 
 const MODE = 'live';
@@ -162,28 +174,62 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     var lightvalue = 0; //static variable for current status
 
     //PUSH TO CLIENT || HARDWARE READ
+
+
     Team1Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 1');
+        console.log('clicked 1 - 1');
         console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
         }
 
-
         if (currentGameSettings.state === 'play') {
             if (value === 0) {
-                console.log('P1 clicked!');
+                console.log('1 - P1 clicked!');
                 currentGameSettings.p1score += 1;
             }
         }
 
+    });
+
+    Team1Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        console.log('clicked 1 - 2');
+        console.log(value);
+        if (err) { //if an error
+            console.error('There was an error', err); //output error message to console
+            return;
+        }
+
+        if (currentGameSettings.state === 'play') {
+            if (value === 0) {
+                console.log('1 - P2 clicked!');
+                currentGameSettings.p1score += 1;
+            }
+        }
+
+    });
+
+    Team1Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        console.log('clicked 1 - 3');
+        console.log(value);
+        if (err) { //if an error
+            console.error('There was an error', err); //output error message to console
+            return;
+        }
+
+        if (currentGameSettings.state === 'play') {
+            if (value === 0) {
+                console.log('1 - P3 clicked!');
+                currentGameSettings.p1score += 1;
+            }
+        }
 
     });
 
 
     Team2Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 2');
+        console.log('clicked 2 - 1');
         console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
@@ -191,7 +237,37 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
         if (currentGameSettings.state === 'play') {
             if (value === 0) {
-                console.log('P2 clicked!');
+                console.log('2 - P1 clicked!');
+                currentGameSettings.p2score += 1;
+            }
+        }
+    });
+
+    Team2Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        console.log('clicked 2 - 2');
+        console.log(value);
+        if (err) { //if an error
+            console.error('There was an error', err); //output error message to console
+            return;
+        }
+        if (currentGameSettings.state === 'play') {
+            if (value === 0) {
+                console.log('2 - P2 clicked!');
+                currentGameSettings.p2score += 1;
+            }
+        }
+    });
+
+    Team2Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+        console.log('clicked 2 - 3');
+        console.log(value);
+        if (err) { //if an error
+            console.error('There was an error', err); //output error message to console
+            return;
+        }
+        if (currentGameSettings.state === 'play') {
+            if (value === 0) {
+                console.log('2 - P3 clicked!');
                 currentGameSettings.p2score += 1;
             }
         }
