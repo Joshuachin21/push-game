@@ -29,6 +29,9 @@
             margin: 25px;
         }
         .countdown{
+            width: 200px;
+            height: 200px;
+            font-size: 40px;
             text-align: center;
             rotation: 90deg;
         }
@@ -62,7 +65,7 @@
 
             <!--=========================================================COUNTDOWN===========================================COUNTDOWN-->
             <div ng-if="gameSettings.state == 'starting' || gameSettings.state == 'play'" class="col-xs-12">
-                <span class="countdown">{{gameSettings.countDown}}</span>
+                <div class="countdown">{{gameSettings.countDown}}</div>
             </div>
             <div ng-if="gameSettings.state == 'finished'" class="col-xs-12">
                 <div class="col-xs-6 text-center">{{gameSettings.winner.name}} is the WINNER!</div>
