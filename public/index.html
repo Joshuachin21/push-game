@@ -292,7 +292,7 @@
         });
 
         $scope.startGame = function () {
-            if ($scope.gameSettings.state === 'menu') {
+            if ($scope.gameSettings.state === 'menu' || $scope.gameSettings.state === 'finished') {
                 console.log('menu');
                 socket.emit("start", $scope.gameSettings);
             }
