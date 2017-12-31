@@ -64,7 +64,7 @@ var SOUND_punch5 = new Sound('/home/pi/Music/sf2sound/2EH.wav');
 var SOUND_punch6 = new Sound('/home/pi/Music/sf2sound/2FH.wav');
 
 var punches = [
-    SOUND_punch1,
+    //SOUND_punch1,
     SOUND_punch2,
     SOUND_punch3,
     SOUND_punch4,
