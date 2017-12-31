@@ -3,23 +3,23 @@ var fs = require('fs'); //require filesystem module
 var io = require('socket.io')(http); //require socket.io module and pass the http object (server)
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 
-var Team1Player1 = new Gpio(4, 'in', 'falling', {
+var Team1Player1 = new Gpio(18, 'in', 'rising', {
     debounceTimeout: 50
 });
-var Team1Player2 = new Gpio(17, 'in', 'falling', {
+var Team1Player2 = new Gpio(23, 'in', 'rising', {
     debounceTimeout: 50
 });
-var Team1Player3 = new Gpio(22, 'in', 'falling', {
+var Team1Player3 = new Gpio(24, 'in', 'rising', {
     debounceTimeout: 50
 });
 
-var Team2Player1 = new Gpio(18, 'in', 'falling', {
+var Team2Player1 = new Gpio(4, 'in', 'rising', {
     debounceTimeout: 50
 });
-var Team2Player2 = new Gpio(23, 'in', 'falling', {
+var Team2Player2 = new Gpio(17, 'in', 'rising', {
     debounceTimeout: 50
 });
-var Team2Player3 = new Gpio(24, 'in', 'falling', {
+var Team2Player3 = new Gpio(22, 'in', 'rising', {
     debounceTimeout: 50
 });
 
@@ -227,8 +227,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
 
         if (currentGameSettings.state === 'play') {
-            punches[randomInt(0,punches.length-1)].play();
-            if (value === 0) {
+
+            if (value === 1) {
+                punches[randomInt(0,punches.length-1)].play();
                 console.log('1 - P1 clicked!');
                 currentGameSettings.p1score += 1;
             }
@@ -245,8 +246,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
 
         if (currentGameSettings.state === 'play') {
-            punches[randomInt(0,punches.length-1)].play();
-            if (value === 0) {
+
+            if (value === 1) {
+                punches[randomInt(0,punches.length-1)].play();
                 console.log('1 - P2 clicked!');
                 currentGameSettings.p1score += 1;
             }
@@ -263,8 +265,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
 
         if (currentGameSettings.state === 'play') {
-            punches[randomInt(0,punches.length-1)].play();
-            if (value === 0) {
+
+            if (value === 1) {
+                punches[randomInt(0,punches.length-1)].play();
                 console.log('1 - P3 clicked!');
                 currentGameSettings.p1score += 1;
             }
@@ -281,8 +284,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             return;
         }
         if (currentGameSettings.state === 'play') {
-            punches[randomInt(0,punches.length-1)].play();
-            if (value === 0) {
+
+            if (value === 1) {
+                punches[randomInt(0,punches.length-1)].play();
                 console.log('2 - P1 clicked!');
                 currentGameSettings.p2score += 1;
             }
@@ -297,8 +301,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             return;
         }
         if (currentGameSettings.state === 'play') {
-            punches[randomInt(0,punches.length-1)].play();
-            if (value === 0) {
+
+            if (value === 1) {
+                punches[randomInt(0,punches.length-1)].play();
                 console.log('2 - P2 clicked!');
                 currentGameSettings.p2score += 1;
             }
@@ -313,8 +318,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             return;
         }
         if (currentGameSettings.state === 'play') {
-            punches[randomInt(0,punches.length-1)].play();
-            if (value === 0) {
+
+            if (value === 1) {
+                punches[randomInt(0,punches.length-1)].play();
                 console.log('2 - P3 clicked!');
                 currentGameSettings.p2score += 1;
             }
@@ -323,7 +329,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
 
     //READ FROM CLIENT
-    socket.on('light', function (data) { //get light switch status from client
+    socket.on('light', function (data) {
         lightvalue = data;
         console.log('changed light switch pi');
 
@@ -333,40 +339,42 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }, 1000);
     });
 
-    socket.on('p1button', function (data) { //get light switch status from client
+    socket.on('p1button', function (data) {
 
         if (currentGameSettings.state === 'play') {
+
+            console.log('P1 clicked! REMOT1');
             punches[randomInt(0,punches.length-1)].play();
-            console.log('P1 clicked! REMOTE');
             currentGameSettings.p1score += 1;
 
         }
     });
 
-    socket.on('p2button', function (data) { //get light switch status from client
+    socket.on('p2button', function (data) {
 
         if (currentGameSettings.state === 'play') {
+
+            console.log('P2 clicked! REMOT1');
             punches[randomInt(0,punches.length-1)].play();
-            console.log('P2 clicked! REMOTE');
             currentGameSettings.p2score += 1;
 
         }
     });
 
-    socket.on('checkGame', function (data) { //get light switch status from client
+    socket.on('checkGame', function (data) {
 
         socket.emit('checkGame', currentGameSettings);
 
     });
 
-    socket.on('continueGame', function (data) { //get light switch status from client
+    socket.on('continueGame', function (data) {
         continueGame(currentGameSettings);
 
 
     });
 
 
-    socket.on('start', function (data) { //get light switch status from client
+    socket.on('start', function (data) {
         console.log('read "start"');
 
         if (data.state === 'menu' || data.state === 'finished') { //only change LED if status has changed
