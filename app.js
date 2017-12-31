@@ -52,7 +52,7 @@ var currentGameSettings = {
 // With full options
 
 var Sound = require('node-aplay');
-var punch = new Sound('/home/pi/Music/sf3sound/2DH.wav');
+var punch = new Sound('/home/pi/Music/sf2sound/2DH.wav');
 
 
 
