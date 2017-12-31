@@ -13,7 +13,7 @@ var Team1Player3 = new Gpio(24, 'in', 'rising', {
     debounceTimeout: 50
 });
 
-var Team2Player1 = new Gpio(4, 'in', 'rising', {
+var Team2Player1 = new Gpio(27, 'in', 'rising', {
     debounceTimeout: 50
 });
 var Team2Player2 = new Gpio(17, 'in', 'rising', {
