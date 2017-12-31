@@ -23,6 +23,10 @@ var Team2Player3 = new Gpio(24, 'in', 'falling', {
     debounceTimeout: 50
 });
 
+var randomInt = function(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+};
 const MODE = 'live';
 var rand = 0;
 http.listen(8080); //listen to port 8080
@@ -52,7 +56,24 @@ var currentGameSettings = {
 // With full options
 
 var Sound = require('node-aplay');
-var punch = new Sound('/home/pi/Music/sf2sound/2DH.wav');
+var SOUND_punch1 = new Sound('/home/pi/Music/sf2sound/2AH.wav');
+var SOUND_punch2 = new Sound('/home/pi/Music/sf2sound/2BH.wav');
+var SOUND_punch3 = new Sound('/home/pi/Music/sf2sound/2CH.wav');
+var SOUND_punch4 = new Sound('/home/pi/Music/sf2sound/2DH.wav');
+var SOUND_punch5 = new Sound('/home/pi/Music/sf2sound/2EH.wav');
+var SOUND_punch6 = new Sound('/home/pi/Music/sf2sound/2FH.wav');
+
+var punches = [
+    SOUND_punch1,
+    SOUND_punch2,
+    SOUND_punch3,
+    SOUND_punch4,
+    SOUND_punch5,
+    SOUND_punch6
+];
+
+var SOUND_countdown = new Sound('/home/pi/Music/sf2sound/24H.wav');
+var SOUND_countdownEnd = new Sound('/home/pi/Music/sf2sound/21H.wav');
 
 
 
@@ -206,6 +227,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
 
         if (currentGameSettings.state === 'play') {
+            punches[randomInt(0,punches.length-1)].play();
             if (value === 0) {
                 console.log('1 - P1 clicked!');
                 currentGameSettings.p1score += 1;
@@ -223,6 +245,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
 
         if (currentGameSettings.state === 'play') {
+            punches[randomInt(0,punches.length-1)].play();
             if (value === 0) {
                 console.log('1 - P2 clicked!');
                 currentGameSettings.p1score += 1;
@@ -240,6 +263,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
 
         if (currentGameSettings.state === 'play') {
+            punches[randomInt(0,punches.length-1)].play();
             if (value === 0) {
                 console.log('1 - P3 clicked!');
                 currentGameSettings.p1score += 1;
@@ -257,6 +281,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             return;
         }
         if (currentGameSettings.state === 'play') {
+            punches[randomInt(0,punches.length-1)].play();
             if (value === 0) {
                 console.log('2 - P1 clicked!');
                 currentGameSettings.p2score += 1;
@@ -272,6 +297,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             return;
         }
         if (currentGameSettings.state === 'play') {
+            punches[randomInt(0,punches.length-1)].play();
             if (value === 0) {
                 console.log('2 - P2 clicked!');
                 currentGameSettings.p2score += 1;
@@ -287,6 +313,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             return;
         }
         if (currentGameSettings.state === 'play') {
+            punches[randomInt(0,punches.length-1)].play();
             if (value === 0) {
                 console.log('2 - P3 clicked!');
                 currentGameSettings.p2score += 1;
@@ -309,7 +336,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     socket.on('p1button', function (data) { //get light switch status from client
 
         if (currentGameSettings.state === 'play') {
-punch.play();
+            punches[randomInt(0,punches.length-1)].play();
             console.log('P1 clicked! REMOTE');
             currentGameSettings.p1score += 1;
 
@@ -319,7 +346,7 @@ punch.play();
     socket.on('p2button', function (data) { //get light switch status from client
 
         if (currentGameSettings.state === 'play') {
-
+            punches[randomInt(0,punches.length-1)].play();
             console.log('P2 clicked! REMOTE');
             currentGameSettings.p2score += 1;
 
@@ -355,7 +382,7 @@ punch.play();
             var countdown = setInterval(function () {
 
                 if (data.countDown === 0) {
-
+                    SOUND_countdownEnd.play();
                     data.countDown = 'Go!';
                     data.state = 'play';
                     socket.emit('start', data);
@@ -365,6 +392,7 @@ punch.play();
                 }
                 else {
                     console.log(data.countDown);
+                    SOUND_countdown.play();
                     socket.emit('starting', data);
                 }
                 data.countDown -= 1;
