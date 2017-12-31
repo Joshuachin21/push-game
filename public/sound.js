@@ -1,4 +1,12 @@
 var Sound = require('node-aplay');
+var shell = require('shelljs');
+
+var soundPath = '/home/pi/Music/sf3sound/';
+
+
+shell.exec('aplay ' + soundPath + '/2AH.wav');
+
+
  
 // fire and forget: 
 new Sound('/home/pi/Music/sf3sound/2AH.wav').play();
@@ -7,7 +15,7 @@ new Sound('/home/pi/Music/sf3sound/2AH.wav').play();
 var music = new Sound('/home/pi/Music/sf3sound/20H.wav');
 music.play();
  
- 
+
 // you can also listen for various callbacks: 
 music.on('complete', function () {
     console.log('Done with playback!');
