@@ -4,7 +4,7 @@ var shell = require('shelljs');
 var soundPath = '/home/pi/Music/sf3sound/';
 
 
-shell.exec('aplay ' + soundPath + '/2AH.wav');
+shell.exec('aplay ' + soundPath + '2AH.wav');
 
 
  
