@@ -16,6 +16,6 @@ setTimeout(function () {
 }, 7000);
  
 // you can also listen for various callbacks: 
-music.on('complete' function () {
+music.on('complete', function () {
     console.log('Done with playback!');
 });
