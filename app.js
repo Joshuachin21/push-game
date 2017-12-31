@@ -28,6 +28,7 @@ var randomInt = function(min,max)
     return Math.floor(Math.random()*(max-min+1)+min);
 };
 const MODE = 'live';
+const WINNING_DIFF = 30;
 var rand = 0;
 http.listen(8080); //listen to port 8080
 //console.log('listening on 8080');
@@ -117,7 +118,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         }
         var gameLoop = setInterval(function () {
 
-            var winningDiff = 100;
+            var winningDiff = WINNING_DIFF;
             var diff = Math.abs(currentGameSettings.p1score - currentGameSettings.p2score);
             var players = 2;
             var totalScores = currentGameSettings.p1score + currentGameSettings.p2score;
