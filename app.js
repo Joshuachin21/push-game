@@ -30,7 +30,7 @@ var randomInt = function(min,max)
 const MODE = 'live';
 var rand = 0;
 http.listen(8080); //listen to port 8080
-console.log('listening on 8080');
+//console.log('listening on 8080');
 
 var gameStates = [
     'menu',
@@ -99,7 +99,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     var startGame = function (gameSettings) {
 
         currentGameSettings = gameSettings;
-        console.log('GAME STARTED!!!!');
+        //console.log('GAME STARTED!!!!');
 
 
         currentGameSettings.p1score = 0;
@@ -154,7 +154,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     var continueGame = function (gameSettings) {
 
         currentGameSettings = gameSettings;
-        console.log('GAME STARTED!!!!');
+        //console.log('GAME STARTED!!!!');
 
 
         currentGameSettings.p1score = 0;
@@ -219,8 +219,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     Team2Player3.unwatchAll();
 
     Team1Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 1 - 1');
-        console.log(value);
+        //console.log('clicked 1 - 1');
+        //console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -230,7 +230,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
             if (value === 1) {
                 punches[randomInt(0,punches.length-1)].play();
-                console.log('1 - P1 clicked!');
+                //console.log('1 - P1 clicked!');
                 currentGameSettings.p1score += 1;
             }
         }
@@ -238,8 +238,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     });
 
     Team1Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 1 - 2');
-        console.log(value);
+        //console.log('clicked 1 - 2');
+        //console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -249,7 +249,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
             if (value === 1) {
                 punches[randomInt(0,punches.length-1)].play();
-                console.log('1 - P2 clicked!');
+                //console.log('1 - P2 clicked!');
                 currentGameSettings.p1score += 1;
             }
         }
@@ -257,8 +257,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     });
 
     Team1Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 1 - 3');
-        console.log(value);
+        //console.log('clicked 1 - 3');
+        //console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -268,7 +268,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
             if (value === 1) {
                 punches[randomInt(0,punches.length-1)].play();
-                console.log('1 - P3 clicked!');
+                //console.log('1 - P3 clicked!');
                 currentGameSettings.p1score += 1;
             }
         }
@@ -277,8 +277,8 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
 
     Team2Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 2 - 1');
-        console.log(value);
+        //console.log('clicked 2 - 1');
+        //console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -287,15 +287,15 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
             if (value === 1) {
                 punches[randomInt(0,punches.length-1)].play();
-                console.log('2 - P1 clicked!');
+                //console.log('2 - P1 clicked!');
                 currentGameSettings.p2score += 1;
             }
         }
     });
 
     Team2Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 2 - 2');
-        console.log(value);
+        //console.log('clicked 2 - 2');
+        //console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -304,15 +304,15 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
             if (value === 1) {
                 punches[randomInt(0,punches.length-1)].play();
-                console.log('2 - P2 clicked!');
+                //console.log('2 - P2 clicked!');
                 currentGameSettings.p2score += 1;
             }
         }
     });
 
     Team2Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        console.log('clicked 2 - 3');
-        console.log(value);
+        //console.log('clicked 2 - 3');
+        //console.log(value);
         if (err) { //if an error
             console.error('There was an error', err); //output error message to console
             return;
@@ -321,7 +321,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
             if (value === 1) {
                 punches[randomInt(0,punches.length-1)].play();
-                console.log('2 - P3 clicked!');
+                //console.log('2 - P3 clicked!');
                 currentGameSettings.p2score += 1;
             }
         }
@@ -331,7 +331,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     //READ FROM CLIENT
     socket.on('light', function (data) {
         lightvalue = data;
-        console.log('changed light switch pi');
+        //console.log('changed light switch pi');
 
         rand = 11919191498 + Date.now();
         setTimeout(function () {
@@ -343,7 +343,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         if (currentGameSettings.state === 'play') {
 
-            console.log('P1 clicked! REMOT1');
+            //console.log('P1 clicked! REMOT1');
             punches[randomInt(0,punches.length-1)].play();
             currentGameSettings.p1score += 1;
 
@@ -354,7 +354,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
         if (currentGameSettings.state === 'play') {
 
-            console.log('P2 clicked! REMOT1');
+            //console.log('P2 clicked! REMOT1');
             punches[randomInt(0,punches.length-1)].play();
             currentGameSettings.p2score += 1;
 
@@ -375,11 +375,11 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 
 
     socket.on('start', function (data) {
-        console.log('read "start"');
+        //console.log('read "start"');
 
         if (data.state === 'menu' || data.state === 'finished') { //only change LED if status has changed
             //init countdown for gameStart
-            console.log('start button pressed');
+            //console.log('start button pressed');
             rand = 11919191498 + Date.now();
 
             data.state = 'starting';
@@ -395,11 +395,11 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
                     data.state = 'play';
                     socket.emit('start', data);
                     clearInterval(this);
-                    console.log(data);
+                    //console.log(data);
                     startGame(data);
                 }
                 else {
-                    console.log(data.countDown);
+                    //console.log(data.countDown);
                     SOUND_countdown.play();
                     socket.emit('starting', data);
                 }
