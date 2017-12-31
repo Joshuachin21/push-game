@@ -1,7 +1,7 @@
 var Sound = require('node-aplay');
  
 // fire and forget: 
-new Sound('/path/to/the/file/filename.wav').play();
+new Sound('/home/pi/Music/sf3sound/20H.wav').play();
  
 // with ability to pause/resume: 
 var music = new Sound('/path/to/the/file/filename.wav');
