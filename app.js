@@ -50,25 +50,10 @@ var currentGameSettings = {
 //SOUNDS
 
 // With full options
-var soundplayer = require("sound-player");
-var options = {
-    filename: "/home/pi/Music/sf3sound/20H.wav",
-    gain: 100,
-    debug: true,
-    player: "aplay", // "afplay" "aplay" "mpg123" "mpg321"
-    device: "plughw:0,0"   //
-}
 
-var player = new soundplayer(options)
-player.play();
+var Sound = require('node-aplay');
+var punch = new Sound('/home/pi/Music/sf3sound/2DH.wav');
 
-player.on('complete', function() {
-    console.log('Done with playback!');
-});
-
-player.on('error', function(err) {
-    console.log('Error occurred:', err);
-});
 
 
 
@@ -324,7 +309,7 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     socket.on('p1button', function (data) { //get light switch status from client
 
         if (currentGameSettings.state === 'play') {
-
+punch.play();
             console.log('P1 clicked! REMOTE');
             currentGameSettings.p1score += 1;
 
