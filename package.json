@@ -15,6 +15,9 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "httpdispatcher": "^2.1.1",
+    "socket.io": "^2.0.4",
+    "sound-player": "^1.0.13",
+    "node-aplay": "^1.0.3",
     "onoff": "^1.1.8"
   },
   "author": "",
