@@ -22,7 +22,7 @@ var Team2Player2 = new Gpio(17, 'in', 'rising', {
 var Team2Player3 = new Gpio(22, 'in', 'rising', {
     debounceTimeout: 50
 });
-
+//
 var randomInt = function(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
