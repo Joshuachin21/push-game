@@ -1,37 +1,45 @@
-var http = require('http').createServer(handler); //require http server, and create server with function handler()
+const DEBUG = process.env.DEBUG; //to develop on non ARM chips / non raspi
+const PORT = !DEBUG ? 8080 : 3000;
+var express = require('express');
+var app = express();
+var http = require('http').createServer(app).listen(PORT, function () {
+    console.log('listening on ' + PORT);
+});
 var fs = require('fs'); //require filesystem module
 var io = require('socket.io')(http); //require socket.io module and pass the http object (server)
-var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+const Gpio = !DEBUG ? require('onoff').Gpio : null; //include onoff to interact with the GPIO
 
-var Team1Player1 = new Gpio(18, 'in', 'rising', {
-    debounceTimeout: 50
-});
-var Team1Player2 = new Gpio(23, 'in', 'rising', {
-    debounceTimeout: 50
-});
-var Team1Player3 = new Gpio(24, 'in', 'rising', {
-    debounceTimeout: 50
-});
+if (!DEBUG) {
 
-var Team2Player1 = new Gpio(27, 'in', 'rising', {
-    debounceTimeout: 50
-});
-var Team2Player2 = new Gpio(17, 'in', 'rising', {
-    debounceTimeout: 50
-});
-var Team2Player3 = new Gpio(22, 'in', 'rising', {
-    debounceTimeout: 50
-});
-//
-var randomInt = function(min,max)
-{
-    return Math.floor(Math.random()*(max-min+1)+min);
+    var Team1Player1 = new Gpio(18, 'in', 'rising', {
+        debounceTimeout: 50
+    });
+    var Team1Player2 = new Gpio(23, 'in', 'rising', {
+        debounceTimeout: 50
+    });
+    var Team1Player3 = new Gpio(24, 'in', 'rising', {
+        debounceTimeout: 50
+    });
+
+    var Team2Player1 = new Gpio(27, 'in', 'rising', {
+        debounceTimeout: 50
+    });
+    var Team2Player2 = new Gpio(17, 'in', 'rising', {
+        debounceTimeout: 50
+    });
+    var Team2Player3 = new Gpio(22, 'in', 'rising', {
+        debounceTimeout: 50
+    });
+}
+
+
+var randomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 };
 const MODE = 'live';
 const WINNING_DIFF = 30;
 var rand = 0;
-http.listen(8080); //listen to port 8080
-//console.log('listening on 8080');
+
 
 var gameStates = [
     'menu',
@@ -49,39 +57,42 @@ var currentGameSettings = {
 };
 
 
-
-
-
 //SOUNDS
 
 // With full options
+if (!DEBUG) {
 
-var Sound = require('node-aplay');
-var SOUND_punch1 = new Sound('/home/pi/Music/sf2sound/2AH.wav');
-var SOUND_punch2 = new Sound('/home/pi/Music/sf2sound/2BH.wav');
-var SOUND_punch3 = new Sound('/home/pi/Music/sf2sound/2CH.wav');
-var SOUND_punch4 = new Sound('/home/pi/Music/sf2sound/2DH.wav');
-var SOUND_punch5 = new Sound('/home/pi/Music/sf2sound/2EH.wav');
-var SOUND_punch6 = new Sound('/home/pi/Music/sf2sound/2FH.wav');
+    var Sound = require('node-aplay');
+    var SOUND_punch1 = new Sound('/home/pi/Music/sf2sound/2AH.wav');
+    var SOUND_punch2 = new Sound('/home/pi/Music/sf2sound/2BH.wav');
+    var SOUND_punch3 = new Sound('/home/pi/Music/sf2sound/2CH.wav');
+    var SOUND_punch4 = new Sound('/home/pi/Music/sf2sound/2DH.wav');
+    var SOUND_punch5 = new Sound('/home/pi/Music/sf2sound/2EH.wav');
+    var SOUND_punch6 = new Sound('/home/pi/Music/sf2sound/2FH.wav');
 
-var punches = [
-    //SOUND_punch1,
-    SOUND_punch2,
-    SOUND_punch3,
-    SOUND_punch4,
-    SOUND_punch5,
-    SOUND_punch6
-];
+    var punches = [
+        //SOUND_punch1,
+        SOUND_punch2,
+        SOUND_punch3,
+        SOUND_punch4,
+        SOUND_punch5,
+        SOUND_punch6
+    ];
 
-var SOUND_countdown = new Sound('/home/pi/Music/sf2sound/24H.wav');
-var SOUND_countdownEnd = new Sound('/home/pi/Music/sf2sound/21H.wav');
+    var SOUND_countdown = new Sound('/home/pi/Music/sf2sound/24H.wav');
+    var SOUND_countdownEnd = new Sound('/home/pi/Music/sf2sound/21H.wav');
 
 
-
+}
 
 //game start with full gameState Object to run it.
 
-function handler(req, res) { //create server
+//All Socket Commands
+
+
+app.use('/assets', express.static('assets'));
+
+app.get("/", function (req, res) {
     fs.readFile(__dirname + '/public/index.html', function (err, data) { //read file index.html in public folder
         if (err) {
             res.writeHead(404, {'Content-Type': 'text/html'}); //display 404 on error
@@ -91,9 +102,8 @@ function handler(req, res) { //create server
         res.write(data); //write data from index.html
         return res.end();
     });
-}
+});
 
-//All Socket Commands
 
 io.sockets.on('connection', function (socket) {// WebSocket Connection
 
@@ -210,123 +220,137 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
     var lightvalue = 0; //static variable for current status
 
     //PUSH TO CLIENT || HARDWARE READ
+    if (!DEBUG) {
 
-    //clear currents
-    Team1Player1.unwatchAll();
-    Team1Player2.unwatchAll();
-    Team1Player3.unwatchAll();
-    Team2Player1.unwatchAll();
-    Team2Player2.unwatchAll();
-    Team2Player3.unwatchAll();
+        //clear currents
+        Team1Player1.unwatchAll();
+        Team1Player2.unwatchAll();
+        Team1Player3.unwatchAll();
+        Team2Player1.unwatchAll();
+        Team2Player2.unwatchAll();
+        Team2Player3.unwatchAll();
 
-    Team1Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        //console.log('clicked 1 - 1');
-        //console.log(value);
-        if (err) { //if an error
-            console.error('There was an error', err); //output error message to console
-            return;
-        }
-
-        if (currentGameSettings.state === 'play') {
-
-            if (value === 1) {
-                punches[randomInt(0,punches.length-1)].play();
-                //console.log('1 - P1 clicked!');
-                currentGameSettings.p1score += 1;
+        Team1Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+            //console.log('clicked 1 - 1');
+            //console.log(value);
+            if (err) { //if an error
+                console.error('There was an error', err); //output error message to console
+                return;
             }
-        }
 
-    });
+            if (currentGameSettings.state === 'play') {
 
-    Team1Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        //console.log('clicked 1 - 2');
-        //console.log(value);
-        if (err) { //if an error
-            console.error('There was an error', err); //output error message to console
-            return;
-        }
-
-        if (currentGameSettings.state === 'play') {
-
-            if (value === 1) {
-                punches[randomInt(0,punches.length-1)].play();
-                //console.log('1 - P2 clicked!');
-                currentGameSettings.p1score += 1;
+                if (value === 1) {
+                    if (!DEBUG) {
+                        punches[randomInt(0, punches.length - 1)].play();
+                    }
+                    //console.log('1 - P1 clicked!');
+                    currentGameSettings.p1score += 1;
+                }
             }
-        }
 
-    });
+        });
 
-    Team1Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        //console.log('clicked 1 - 3');
-        //console.log(value);
-        if (err) { //if an error
-            console.error('There was an error', err); //output error message to console
-            return;
-        }
-
-        if (currentGameSettings.state === 'play') {
-
-            if (value === 1) {
-                punches[randomInt(0,punches.length-1)].play();
-                //console.log('1 - P3 clicked!');
-                currentGameSettings.p1score += 1;
+        Team1Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+            //console.log('clicked 1 - 2');
+            //console.log(value);
+            if (err) { //if an error
+                console.error('There was an error', err); //output error message to console
+                return;
             }
-        }
 
-    });
+            if (currentGameSettings.state === 'play') {
 
-
-    Team2Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        //console.log('clicked 2 - 1');
-        //console.log(value);
-        if (err) { //if an error
-            console.error('There was an error', err); //output error message to console
-            return;
-        }
-        if (currentGameSettings.state === 'play') {
-
-            if (value === 1) {
-                punches[randomInt(0,punches.length-1)].play();
-                //console.log('2 - P1 clicked!');
-                currentGameSettings.p2score += 1;
+                if (value === 1) {
+                    if (!DEBUG) {
+                        punches[randomInt(0, punches.length - 1)].play();
+                    }
+                    //console.log('1 - P2 clicked!');
+                    currentGameSettings.p1score += 1;
+                }
             }
-        }
-    });
 
-    Team2Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        //console.log('clicked 2 - 2');
-        //console.log(value);
-        if (err) { //if an error
-            console.error('There was an error', err); //output error message to console
-            return;
-        }
-        if (currentGameSettings.state === 'play') {
+        });
 
-            if (value === 1) {
-                punches[randomInt(0,punches.length-1)].play();
-                //console.log('2 - P2 clicked!');
-                currentGameSettings.p2score += 1;
+        Team1Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+            //console.log('clicked 1 - 3');
+            //console.log(value);
+            if (err) { //if an error
+                console.error('There was an error', err); //output error message to console
+                return;
             }
-        }
-    });
 
-    Team2Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
-        //console.log('clicked 2 - 3');
-        //console.log(value);
-        if (err) { //if an error
-            console.error('There was an error', err); //output error message to console
-            return;
-        }
-        if (currentGameSettings.state === 'play') {
+            if (currentGameSettings.state === 'play') {
 
-            if (value === 1) {
-                punches[randomInt(0,punches.length-1)].play();
-                //console.log('2 - P3 clicked!');
-                currentGameSettings.p2score += 1;
+                if (value === 1) {
+                    if (!DEBUG) {
+                        punches[randomInt(0, punches.length - 1)].play();
+                    }
+                    //console.log('1 - P3 clicked!');
+                    currentGameSettings.p1score += 1;
+                }
             }
-        }
-    });
+
+        });
+
+
+        Team2Player1.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+            //console.log('clicked 2 - 1');
+            //console.log(value);
+            if (err) { //if an error
+                console.error('There was an error', err); //output error message to console
+                return;
+            }
+            if (currentGameSettings.state === 'play') {
+
+                if (value === 1) {
+                    if (!DEBUG) {
+                        punches[randomInt(0, punches.length - 1)].play();
+                    }
+                    //console.log('2 - P1 clicked!');
+                    currentGameSettings.p2score += 1;
+                }
+            }
+        });
+
+        Team2Player2.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+            //console.log('clicked 2 - 2');
+            //console.log(value);
+            if (err) { //if an error
+                console.error('There was an error', err); //output error message to console
+                return;
+            }
+            if (currentGameSettings.state === 'play') {
+
+                if (value === 1) {
+                    if (!DEBUG) {
+                        punches[randomInt(0, punches.length - 1)].play();
+                    }
+                    //console.log('2 - P2 clicked!');
+                    currentGameSettings.p2score += 1;
+                }
+            }
+        });
+
+        Team2Player3.watch(function (err, value) { //Watch for hardware interrupts on pushButton
+            //console.log('clicked 2 - 3');
+            //console.log(value);
+            if (err) { //if an error
+                console.error('There was an error', err); //output error message to console
+                return;
+            }
+            if (currentGameSettings.state === 'play') {
+
+                if (value === 1) {
+                    if (!DEBUG) {
+                        punches[randomInt(0, punches.length - 1)].play();
+                    }
+                    //console.log('2 - P3 clicked!');
+                    currentGameSettings.p2score += 1;
+                }
+            }
+        });
+    }
 
 
     //READ FROM CLIENT
@@ -345,7 +369,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         if (currentGameSettings.state === 'play') {
 
             //console.log('P1 clicked! REMOT1');
-            punches[randomInt(0,punches.length-1)].play();
+            if (!DEBUG) {
+                punches[randomInt(0, punches.length - 1)].play();
+            }
             currentGameSettings.p1score += 1;
 
         }
@@ -356,7 +382,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
         if (currentGameSettings.state === 'play') {
 
             //console.log('P2 clicked! REMOT1');
-            punches[randomInt(0,punches.length-1)].play();
+            if (!DEBUG) {
+                punches[randomInt(0, punches.length - 1)].play();
+            }
             currentGameSettings.p2score += 1;
 
         }
@@ -391,7 +419,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
             var countdown = setInterval(function () {
 
                 if (data.countDown === 0) {
-                    SOUND_countdownEnd.play();
+                    if (!DEBUG) {
+                        SOUND_countdownEnd.play();
+                    }
                     data.countDown = 'Go!';
                     data.state = 'play';
                     socket.emit('start', data);
@@ -401,7 +431,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
                 }
                 else {
                     //console.log(data.countDown);
-                    SOUND_countdown.play();
+                    if (!DEBUG) {
+                        SOUND_countdown.play();
+                    }
                     socket.emit('starting', data);
                 }
                 data.countDown -= 1;
@@ -415,7 +447,9 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 });
 
 process.on('SIGINT', function () { //on ctrl+c
-    Team1Player1.unexport(); // Unexport LED GPIO to free resources
-    Team2Player1.unexport(); // Unexport Button GPIO to free resources
+    if (!DEBUG) {
+        Team1Player1.unexport(); // Unexport LED GPIO to free resources
+        Team2Player1.unexport(); // Unexport Button GPIO to free resources
+    }
     process.exit(); //exit completely
 });
